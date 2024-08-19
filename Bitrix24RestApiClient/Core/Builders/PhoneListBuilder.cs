@@ -4,21 +4,17 @@ using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Models.CrmMultiField;
 using Bitrix24RestApiClient.Core.Models.CrmMultiField.implementations;
 
-namespace Bitrix24RestApiClient.Core.Builders
+namespace Bitrix24RestApiClient.Core.Builders;
+
+public class PhoneListBuilder: IPhoneListBuilder
 {
-    public class PhoneListBuilder: IPhoneListBuilder
+    private readonly List<CrmMultiField> fields = new();
+
+    public IPhoneListBuilder SetField(string phone, string type = EmailType.Рабочий)
     {
-        private List<CrmMultiField> fields = new List<CrmMultiField>();
-
-        public IPhoneListBuilder SetField(string phone, string type = EmailType.Рабочий)
-        {
-            fields.Add(new CrmMultiFieldPhone(phone, type));
-            return this;
-        }
-
-        public List<CrmMultiField> Build()
-        {
-            return fields;
-        }
+        fields.Add(new CrmMultiFieldPhone(phone, type));
+        return this;
     }
+
+    public List<CrmMultiField> Build() => fields;
 }

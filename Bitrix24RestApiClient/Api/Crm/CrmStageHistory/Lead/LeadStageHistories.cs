@@ -7,6 +7,7 @@ using Bitrix24RestApiClient.Core.BatchStrategies;
 using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Api.Crm.CrmStageHistory.Lead.Models;
+using Bitrix24RestApiClient.Core.BatchStrategies.BatchOperations;
 using Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse;
 
 namespace Bitrix24RestApiClient.Api.Crm.CrmStageHistory.Lead

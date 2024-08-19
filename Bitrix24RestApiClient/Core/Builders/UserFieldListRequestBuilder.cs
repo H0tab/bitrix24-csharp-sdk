@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
-using Bitrix24RestApiClient.Core.Builders;
 
-namespace Bitrix24RestApiClient.Core.Builders
+namespace Bitrix24RestApiClient.Core.Builders;
+
+public class UserFieldListRequestBuilder
 {
-    public class UserFieldListRequestBuilder
+    private readonly Dictionary<string, string> fieldsToAddOrUpdate = new();
+
+    public UserFieldListRequestBuilder SetField(string fieldName, string value)
     {
-        private Dictionary<string, string> fieldsToAddOrUpdate = new Dictionary<string, string>();
+        fieldsToAddOrUpdate[fieldName] = value;
+        return this;
+    }
 
-        public UserFieldListRequestBuilder SetField(string fieldName, string value)
-        {
-            fieldsToAddOrUpdate[fieldName] = value;
-            return this;
-        }
-
-        public Dictionary<string, string> Get()
-        {
-            return fieldsToAddOrUpdate;
-        }
+    public Dictionary<string, string> Get()
+    {
+        return fieldsToAddOrUpdate;
     }
 }

@@ -8,76 +8,74 @@ using System.Text.RegularExpressions;
 using Bitrix24RestApiClient.Core.Models.Enums;
 using System.Threading;
 
-namespace Bitrix24RestApiClient.Core.Client
+namespace Bitrix24RestApiClient.Core.Client;
+
+/// <summary>
+/// Bitrix24 client for sending Http POST responses
+/// </summary>
+public class Bitrix24Client: IBitrix24Client
 {
-    public class Bitrix24Client: IBitrix24Client
+    private static DateTimeOffset _lastRequestDate = DateTimeOffset.UtcNow;
+    private static readonly TimeSpan DelayBetweenSeqRequests = TimeSpan.FromMilliseconds(1000);
+    private static readonly SemaphoreSlim ImportEntitiesSemaphore = new (1, 1);
+        
+    private readonly string webhookUrl;
+    private ILogger<Bitrix24Client> logger;
+
+    /// <summary>
+    /// Create new Bitrix24Client
+    /// </summary>
+    /// <param name="webhookUrl">bitrix webhook url</param>
+    /// <param name="logger">logger</param>
+    public Bitrix24Client(string webhookUrl, ILogger<Bitrix24Client> logger)
     {
-        private string webhookUrl;
-        private ILogger<Bitrix24Client> logger;
-        private static DateTimeOffset _lastRequestDate = DateTimeOffset.UtcNow;
-        private static TimeSpan DELAY_BETWEEN_SEQ_REQUESTS = TimeSpan.FromMilliseconds(1000);
-        private static SemaphoreSlim _importEntitiesSemaphore = new SemaphoreSlim(1, 1);
+        this.webhookUrl = webhookUrl;
+        this.logger = logger;
+    }
 
-        public Bitrix24Client(string webhookUrl, ILogger<Bitrix24Client> logger)
+    public async Task<TResponse> SendPostRequest<TArgs, TResponse>(EntryPointPrefix entityTypePrefix, EntityMethod entityMethod, TArgs args, CancellationToken ct = default) where TResponse : class
+    {
+        await ImportEntitiesSemaphore.WaitAsync(ct);
+
+        var passedTime = DateTimeOffset.UtcNow - _lastRequestDate;
+        if (DelayBetweenSeqRequests > passedTime)
         {
-            this.webhookUrl = webhookUrl;
-            this.logger = logger;
+            var delay = DelayBetweenSeqRequests - passedTime;
+            await Task.Delay(delay, ct);
         }
+        _lastRequestDate = DateTimeOffset.UtcNow;
 
-        public async Task<TResponse> SendPostRequest<TArgs, TResponse>(EntryPointPrefix entityTypePrefix, EntityMethod entityMethod, TArgs args, CancellationToken ct = default) where TResponse : class
+        string responseBodyStr;
+
+        try
         {
-            await _importEntitiesSemaphore.WaitAsync(ct);
+            var response = await webhookUrl
+                .AppendPathSegment(GetMethod(entityTypePrefix, entityMethod))
+                .PostJsonAsync(args, cancellationToken: ct);
 
-            var passedTime = DateTimeOffset.UtcNow - _lastRequestDate;
-            if (DELAY_BETWEEN_SEQ_REQUESTS > passedTime)
-            {
-                var delay = DELAY_BETWEEN_SEQ_REQUESTS - passedTime;
-                await Task.Delay(delay);
-            }
-            _lastRequestDate = DateTimeOffset.UtcNow;
-
-            string responseBodyStr = null;
-
-            try
-            {
-                IFlurlResponse response = await webhookUrl
-                       .AppendPathSegment(GetMethod(entityTypePrefix, entityMethod))
-                       .PostJsonAsync(args);
-
-                TResponse responseBody = await response.GetJsonAsync<TResponse>();
-                responseBodyStr = JsonConvert.SerializeObject(responseBody);
-                return responseBody;
-            }
-            catch (FlurlHttpException ex)
-            {
-                try
-                {
-                    responseBodyStr = "";
-                    if (ex.Call.Response == null)
-                    {
-                        throw;
-                    }
-
-                    responseBodyStr = Regex.Unescape(await ex.Call.Response.GetStringAsync());
-                    throw new Exception(responseBodyStr, ex);
-                }
-                catch
-                {
-                    throw;
-                }
-            }
-            finally
-            {
-                _importEntitiesSemaphore.Release();
-            }
+            var responseBody = await response.GetJsonAsync<TResponse>();
+            responseBodyStr = JsonConvert.SerializeObject(responseBody);
+                
+            logger.LogInformation("Got response body: {responseBodyStr}", responseBodyStr);
+                
+            return responseBody;
         }
-
-        private string GetMethod(EntryPointPrefix entityTypePrefix, EntityMethod method)
+        catch (FlurlHttpException ex)
         {
-            if (method.Value == EntityMethod.None.Value)
-                return entityTypePrefix.Value;
+            if (ex.Call.Response == null)
+                throw;
 
-            return $"{entityTypePrefix.Value}.{method.Value}";
+            responseBodyStr = Regex.Unescape(await ex.Call.Response.GetStringAsync());
+            throw new Exception(responseBodyStr, ex);
+        }
+        finally
+        {
+            ImportEntitiesSemaphore.Release();
         }
     }
+
+    private static string GetMethod(EntryPointPrefix entityTypePrefix, EntityMethod method) => 
+        method.Value == EntityMethod.None.Value 
+            ? entityTypePrefix.Value 
+            : $"{entityTypePrefix.Value}.{method.Value}";
 }

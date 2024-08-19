@@ -7,6 +7,7 @@ using Bitrix24RestApiClient.Core.Builders;
 using Bitrix24RestApiClient.Core.Utilities;
 using Bitrix24RestApiClient.Core.Models.Enums;
 using Bitrix24RestApiClient.Core.BatchStrategies;
+using Bitrix24RestApiClient.Core.BatchStrategies.BatchOperations;
 using Bitrix24RestApiClient.Core.Models.Response;
 using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;

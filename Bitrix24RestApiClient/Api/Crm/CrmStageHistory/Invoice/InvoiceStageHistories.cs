@@ -8,6 +8,7 @@ using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse;
 using Bitrix24RestApiClient.Api.Crm.CrmStageHistory.Invoice.Models;
+using Bitrix24RestApiClient.Core.BatchStrategies.BatchOperations;
 
 namespace Bitrix24RestApiClient.Api.Crm.CrmStageHistory.Invoice
 {

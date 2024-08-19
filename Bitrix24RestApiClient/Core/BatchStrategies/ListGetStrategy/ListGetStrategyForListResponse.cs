@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Linq;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Bitrix24RestApiClient.Core.Builders;
+using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Client;
 using Bitrix24RestApiClient.Core.Models;
-using Bitrix24RestApiClient.Core.Builders;
-using Bitrix24RestApiClient.Core.Utilities;
-using Bitrix24RestApiClient.Core.Models.Enums;
-using Bitrix24RestApiClient.Core.Models.Response;
-using Bitrix24RestApiClient.Core.Models.RequestArgs;
-using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Models.CrmAbstractEntity;
+using Bitrix24RestApiClient.Core.Models.Enums;
+using Bitrix24RestApiClient.Core.Models.RequestArgs;
+using Bitrix24RestApiClient.Core.Models.Response;
 using Bitrix24RestApiClient.Core.Models.Response.BatchResponse;
+using Bitrix24RestApiClient.Core.Utilities;
+using Newtonsoft.Json;
 
-namespace Bitrix24RestApiClient.Core.BatchStrategies
+namespace Bitrix24RestApiClient.Core.BatchStrategies.ListGetStrategy
 {
     public class ListGetStrategyForListResponse
     {
-        private IBitrix24Client client;
-        private EntryPointPrefix entityTypePrefix;
+        private readonly IBitrix24Client client;
+        private readonly EntryPointPrefix entityTypePrefix;
 
         public ListGetStrategyForListResponse(IBitrix24Client client, EntryPointPrefix entityTypePrefix)
         {
@@ -48,21 +48,21 @@ namespace Bitrix24RestApiClient.Core.BatchStrategies
                 .AddSelect(idNameExpr)
                 .AddOrderBy(idNameExpr);
 
-            ListResponse<TCustomEntity> firstListResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchMinIdBuilder.BuildArgs());
+            var firstListResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchMinIdBuilder.BuildArgs());
             if (firstListResponse.Total == 0)
                 yield break;
 
-            int nextMinId = firstListResponse.Result.Max(x => x.Id).Value;
+            var nextMinId = firstListResponse.Result.Max(x => x.Id).Value;
             //Запросы уходят парами. Стартуем запрос на следующую страницу с айдишками и фечим сущности для предыдущей страницы 
-            Task<ListResponse<TCustomEntity>> nextListResponseTask = FetchNextList(idNameExpr, fetchMinIdBuilder, nextMinId);
+            var nextListResponseTask = FetchNextList(idNameExpr, fetchMinIdBuilder, nextMinId);
 
             await foreach (TCustomEntity item in BatchGetItems(idNameExpr, firstListResponse.Result))
                 yield return item;
 
-            for (int i = 0; i < firstListResponse.Total; i += 50)
+            for (var i = 0; i < firstListResponse.Total; i += 50)
             {
-                Task.WaitAll(nextListResponseTask);
-                ListResponse<TCustomEntity> listResponse = nextListResponseTask.Result;
+                nextListResponseTask.Wait();
+                var listResponse = nextListResponseTask.Result;
 
                 if (listResponse.Result.Count == 0)
                     yield break;
@@ -71,14 +71,14 @@ namespace Bitrix24RestApiClient.Core.BatchStrategies
 
                 nextListResponseTask = FetchNextList(idNameExpr, fetchMinIdBuilder, nextMinId);
 
-                await foreach (TCustomEntity item in BatchGetItems(idNameExpr, listResponse.Result))
+                await foreach (var item in BatchGetItems(idNameExpr, listResponse.Result))
                     yield return item;
             }
         }
 
         private async IAsyncEnumerable<TCustomEntity> BatchGetItems<TCustomEntity>(Expression<Func<TCustomEntity, object>> idNameExpr, List<TCustomEntity> items) where TCustomEntity : IAbstractEntity
         {
-            CrmBatchRequestArgs getItemsBatch = new CrmBatchRequestArgs() 
+            var getItemsBatch = new CrmBatchRequestArgs
             {
                 Halt = 0,
                 Commands = items
@@ -86,22 +86,22 @@ namespace Bitrix24RestApiClient.Core.BatchStrategies
                     .ToDictionary(x => x.Id.Value.ToString(), x => x.Cmd)
             };
 
-            BatchResponse<TCustomEntity> batchResponse = await client.SendPostRequest<CrmBatchRequestArgs, BatchResponse<TCustomEntity>>(EntryPointPrefix.Batch, EntityMethod.None, getItemsBatch);
+            var batchResponse = await client.SendPostRequest<CrmBatchRequestArgs, BatchResponse<TCustomEntity>>(EntryPointPrefix.Batch, EntityMethod.None, getItemsBatch);
             if (batchResponse.Result.Error.Count > 0)
                 throw new Exception($"Ошибка при выполнении batch-запроса. Ответ: {JsonConvert.SerializeObject(batchResponse)}");
 
-            foreach (TCustomEntity item in items.Select(x => batchResponse.Result.Result[x.Id.Value.ToString()]))
+            foreach (var item in items.Select(x => batchResponse.Result.Result[x.Id.Value.ToString()]))
                 yield return item;
         }
 
         private async Task<ListResponse<TCustomEntity>> FetchNextList<TCustomEntity>(Expression<Func<TCustomEntity, object>> idNameExpr, ListRequestBuilder<TCustomEntity> fetchMinIdBuilder, int nextMinId) where TCustomEntity : IAbstractEntity
         {
-            ListRequestBuilder<TCustomEntity> fetchNextBuilder = fetchMinIdBuilder.Copy();
+            var fetchNextBuilder = fetchMinIdBuilder.Copy();
             fetchNextBuilder
                 .SetStart(-1)
                 .AddFilter(idNameExpr, nextMinId, FilterOperator.GreateThan);
 
-            ListResponse<TCustomEntity> listResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchNextBuilder.BuildArgs());
+            var listResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchNextBuilder.BuildArgs());
             return listResponse;
         }
     }
