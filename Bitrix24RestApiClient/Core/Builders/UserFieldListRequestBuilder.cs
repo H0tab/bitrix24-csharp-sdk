@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Bitrix24RestApiClient.Core.Builders;
+﻿namespace Bitrix24RestApiClient.Core.Builders;
 
 public class UserFieldListRequestBuilder
 {
@@ -12,8 +10,5 @@ public class UserFieldListRequestBuilder
         return this;
     }
 
-    public Dictionary<string, string> Get()
-    {
-        return fieldsToAddOrUpdate;
-    }
+    public Dictionary<string, string> Get() => fieldsToAddOrUpdate;
 }

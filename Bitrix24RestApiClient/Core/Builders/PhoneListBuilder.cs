@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Bitrix24RestApiClient.Core.Models.Enums;
+﻿using Bitrix24RestApiClient.Core.Models.Enums;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Models.CrmMultiField;
 using Bitrix24RestApiClient.Core.Models.CrmMultiField.implementations;

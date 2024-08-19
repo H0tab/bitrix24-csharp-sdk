@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Models.Enums;
 using Bitrix24RestApiClient.Core.Models.RequestArgs;
@@ -26,6 +24,7 @@ public class AddRequestBuilder<TEntity>: IAddRequestBuilder<TEntity>
         this.entityTypeId = entityTypeId;
         return this;
     }
+    
     public IAddRequestBuilder<TEntity> SetField(Expression<Func<TEntity, object>> fieldNameExpr, object value)
     {
         fields[fieldNameExpr.JsonPropertyName()] = fieldNameExpr.MapValue(value);

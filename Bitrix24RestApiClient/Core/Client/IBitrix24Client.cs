@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Bitrix24RestApiClient.Core.Models.Enums;
+﻿using Bitrix24RestApiClient.Core.Models.Enums;
 
 namespace Bitrix24RestApiClient.Core.Client;
 

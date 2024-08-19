@@ -20,7 +20,7 @@ public class Bitrix24Client: IBitrix24Client
     private static readonly SemaphoreSlim ImportEntitiesSemaphore = new (1, 1);
         
     private readonly string webhookUrl;
-    private ILogger<Bitrix24Client> logger;
+    private readonly ILogger<Bitrix24Client> logger;
 
     /// <summary>
     /// Create new Bitrix24Client
@@ -49,9 +49,10 @@ public class Bitrix24Client: IBitrix24Client
 
         try
         {
-            var response = await webhookUrl
-                .AppendPathSegment(GetMethod(entityTypePrefix, entityMethod))
-                .PostJsonAsync(args, cancellationToken: ct);
+            var url = webhookUrl.AppendPathSegment(GetMethod(entityTypePrefix, entityMethod));
+            
+            var response = await url.PostJsonAsync(args, cancellationToken: ct);
+
 
             var responseBody = await response.GetJsonAsync<TResponse>();
             responseBodyStr = JsonConvert.SerializeObject(responseBody);

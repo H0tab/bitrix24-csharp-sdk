@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Bitrix24RestApiClient.Core.Attributes;
 using Bitrix24RestApiClient.Core.Models.Enums;
 using Bitrix24RestApiClient.Api.Crm.Invoices.OldInvoices.Enums;
@@ -13,9 +11,7 @@ public static class ExpressionExtensions
     {
         var memberInfo = ReflectionHelper.GetMemberInfo(expr);
 
-        return ReflectionHelper.GetPropertyNameFromJsonPropertyAttribute(memberInfo)
-               ?? ReflectionHelper.GetPropertyNameFromCrmFieldAttribute(memberInfo)
-               ?? memberInfo.Name;
+        return ReflectionHelper.GetPropertyNameFromJsonPropertyAttribute(memberInfo);
     }
 
     public static string JsonPropertyName<TEntity>(this Expression<Func<TEntity, object>> self) => 
@@ -77,7 +73,5 @@ public static class ExpressionExtensions
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-        return value;
     }
 }

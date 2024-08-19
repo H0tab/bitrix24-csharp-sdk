@@ -2,7 +2,9 @@
 
   <PropertyGroup>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>Bitrix24RestApiClient</PackageId>
     <Version>1.1.57</Version>
     <Authors>Rustam Shaikhatarov</Authors>

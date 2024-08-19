@@ -1,4 +1,5 @@
-﻿using Bitrix24RestApiClient.Core.Client;
+﻿using Bitrix24RestApiClient.Api.Crm.CrmActivity;
+using Bitrix24RestApiClient.Core.Client;
 using Bitrix24RestApiClient.Api.Crm.Item;
 using Bitrix24RestApiClient.Api.Crm.CrmDeal;
 using Bitrix24RestApiClient.Api.Crm.CrmLead;
@@ -24,6 +25,7 @@ namespace Bitrix24RestApiClient.Api.Crm
             Companies = new CompanyContainer(client);
             Contacts = new ContactContainer(client);
             Timeline = new TimelineContainer(client);
+            ActivityContainer = new ActivityContainer(client);
             Products = new ProductContainer(client);
             Invoices = new InvoiceContainer(client);
             PaySystems = new PaySystemContainer(client);
@@ -44,6 +46,7 @@ namespace Bitrix24RestApiClient.Api.Crm
         public DealContainer Deals { get; private set; }
         public ContactContainer Contacts { get; private set; }
         public TimelineContainer Timeline { get; private set; }
+        public ActivityContainer ActivityContainer { get; private set; }
         public ProductContainer Products { get; private set; }
         public InvoiceContainer Invoices { get; private set; }
         public PaySystemContainer PaySystems { get; private set; }
