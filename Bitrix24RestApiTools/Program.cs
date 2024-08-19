@@ -1,5 +1,6 @@
 ﻿using PowerArgs;
 using System;
+using Bitrix24RestApiTools.ArgsProcessing;
 
 namespace Bitrix24RestApiTools
 {

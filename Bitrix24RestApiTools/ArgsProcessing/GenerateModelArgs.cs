@@ -21,7 +21,5 @@ namespace Bitrix24RestApiTools
 
         [ArgDescription("EntityTypeId. An id that has to be passed into a request body for smart process fields."), ArgPosition(6)]
         public int? EntityTypeId { get; set; }
-
-        public string ResponseClass { get; set; }
     }
 }
