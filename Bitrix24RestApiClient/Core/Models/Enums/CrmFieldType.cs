@@ -28,6 +28,7 @@
         public const string CrmMultiField = "crm_multifield";
         public const string CrmStatusExtra = "crm_status_extra";
         public const string Text = "text";
+        public const string Array = "array";
         public const string AssociativeArray = "aarray";
         public const string IndexArray = "iarray";
         public const string Rest142AmRegulate = "rest_142_amregulate";
@@ -60,5 +61,6 @@
         public const string ProductPropertyEnumElement = "product_property_enum_element";
         public const string Boolean = "boolean";
         public const string Url = "url";
+        public const string Enum = "enum";
     }
 }

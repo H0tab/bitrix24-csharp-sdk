@@ -14,20 +14,20 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task AddTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            Deal deal = (await bitrix24.Crm.Deals.Get(dealId.Value)).Result;
+            Deal deal = (await Bitrix24.Crm.Deals.Get(dealId.Value)).Result;
             Assert.Equal(dealId.Value, deal.Id);
         }
 
         [Fact]
         public async Task ListTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            ListResponse<Deal> response = await bitrix24.Crm.Deals.List(x=>x
+            ListResponse<Deal> response = await Bitrix24.Crm.Deals.List(x=>x
                 .AddFilter(x=>x.Id, dealId.Value)
                 .AddSelect(x=>x.Title));
 
@@ -37,10 +37,10 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task FirstTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            Deal deal = await bitrix24.Crm.Deals.First(x => x
+            Deal deal = await Bitrix24.Crm.Deals.First(x => x
                 .AddFilter(x => x.Id, dealId.Value)
                 .AddSelect(x => x.Title));
 
@@ -50,31 +50,31 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task UpdateTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "fizz"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "fizz"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            await bitrix24.Crm.Deals.Update(dealId.Value, x => x.SetField(x => x.Title, "buzz"));
+            await Bitrix24.Crm.Deals.Update(dealId.Value, x => x.SetField(x => x.Title, "buzz"));
 
-            Deal deal = (await bitrix24.Crm.Deals.Get(dealId.Value, x=>x.Title)).Result;
+            Deal deal = (await Bitrix24.Crm.Deals.Get(dealId.Value, x=>x.Title)).Result;
             Assert.Equal("buzz", deal.Title);
         }
 
         [Fact]
         public async Task FieldsTest()
         {
-            FieldsResponse fields = (await bitrix24.Crm.Deals.Fields());
+            FieldsResponse fields = (await Bitrix24.Crm.Deals.Fields());
         }
 
         [Fact]
         public async Task DeleteTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
 
-            DeleteResponse deleteResponse = (await bitrix24.Crm.Deals.Delete(dealId.Value));
+            DeleteResponse deleteResponse = (await Bitrix24.Crm.Deals.Delete(dealId.Value));
 
             Assert.ThrowsAsync<Exception>(async ()=>
             {
-                Deal deal = (await bitrix24.Crm.Deals.Get(dealId.Value)).Result;
+                Deal deal = (await Bitrix24.Crm.Deals.Get(dealId.Value)).Result;
             });
         }
     }

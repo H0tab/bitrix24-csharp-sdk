@@ -24,8 +24,8 @@ public class ConsoleApp
             ? new { }
             : new { entityTypeId = args.EntityTypeId };
 
-        var response = await client.SendPostRequest<object, FieldsResponse>(new EntryPointPrefix(args.FieldsEntryPoint), EntityMethod.None, body);
-        var fields = response.Result;
+        var response = await client.SendPostRequest<object, ExtFieldsResponse>(new EntryPointPrefix(args.FieldsEntryPoint), EntityMethod.None, body);
+        var fields = response.Fields.Result;
             
         var outputPath = args.OutputPath;
         if(!Directory.Exists(outputPath))

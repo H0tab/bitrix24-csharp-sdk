@@ -18,15 +18,15 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await bitrix24.Crm.Companies.Add();
+            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
-            int? paySystemId = (await bitrix24.Crm.PaySystems.List()).Result.First().Id;
+            int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
 
-            int productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId);
 
-            int? invoiceId = (await bitrix24.Crm.Invoices.Old.Add(x => x
+            int? invoiceId = (await Bitrix24.Crm.Invoices.Old.Add(x => x
                 .SetField(x => x.StatusId, InvoiceStatusEnum.НеОплачен)
                 .SetField(x => x.PersonTypeId, 2)
                 .SetField(x => x.PaySystemId, paySystemId)
@@ -46,7 +46,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                 }))).Result;
             AllocatedOldInvoices.Add(invoiceId.Value);
 
-            Invoice invoice = (await bitrix24.Crm.Invoices.Old.Get(invoiceId.Value)).Result;
+            Invoice invoice = (await Bitrix24.Crm.Invoices.Old.Get(invoiceId.Value)).Result;
             Assert.Equal(invoiceId.Value, invoice.Id);
         }
 
@@ -55,15 +55,15 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await bitrix24.Crm.Companies.Add();
+            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
-            int? paySystemId = (await bitrix24.Crm.PaySystems.List()).Result.First().Id;
+            int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
 
-            int productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId);
 
-            int? invoiceId = (await bitrix24.Crm.Invoices.Old.Add(x => x
+            int? invoiceId = (await Bitrix24.Crm.Invoices.Old.Add(x => x
                 .SetField(x => x.StatusId, InvoiceStatusEnum.НеОплачен)
                 .SetField(x => x.PersonTypeId, 2)
                 .SetField(x => x.PaySystemId, paySystemId)
@@ -83,7 +83,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                 }))).Result;
             AllocatedOldInvoices.Add(invoiceId.Value);
 
-            ListResponse<Invoice> response = await bitrix24.Crm.Invoices.Old.List(x=>x
+            ListResponse<Invoice> response = await Bitrix24.Crm.Invoices.Old.List(x=>x
                 .AddFilter(x=>x.Id, invoiceId.Value)
                 .AddSelect(x=>x.AccountNumber));
 
@@ -95,15 +95,15 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await bitrix24.Crm.Companies.Add();
+            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
-            int? paySystemId = (await bitrix24.Crm.PaySystems.List()).Result.First().Id;
+            int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
 
-            int productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId);
 
-            int? invoiceId = (await bitrix24.Crm.Invoices.Old.Add(x => x
+            int? invoiceId = (await Bitrix24.Crm.Invoices.Old.Add(x => x
                 .SetField(x => x.StatusId, InvoiceStatusEnum.НеОплачен)
                 .SetField(x => x.PersonTypeId, 2)
                 .SetField(x => x.PaySystemId, paySystemId)
@@ -123,7 +123,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                 }))).Result;
             AllocatedOldInvoices.Add(invoiceId.Value);
 
-            Invoice invoice = await bitrix24.Crm.Invoices.Old.First(x => x
+            Invoice invoice = await Bitrix24.Crm.Invoices.Old.First(x => x
                 .AddFilter(x => x.Id, invoiceId.Value)
                 .AddSelect(x => x.AccountNumber));
 
@@ -136,15 +136,15 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
             string accountNumber1 = Guid.NewGuid().ToString();
             string accountNumber2 = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await bitrix24.Crm.Companies.Add();
+            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
-            int? paySystemId = (await bitrix24.Crm.PaySystems.List()).Result.First().Id;
+            int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
 
-            int productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId);
 
-            int? invoiceId = (await bitrix24.Crm.Invoices.Old.Add(x => x
+            int? invoiceId = (await Bitrix24.Crm.Invoices.Old.Add(x => x
                 .SetField(x => x.StatusId, InvoiceStatusEnum.НеОплачен)
                 .SetField(x => x.PersonTypeId, 2)
                 .SetField(x => x.PaySystemId, paySystemId)
@@ -164,16 +164,16 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                 }))).Result;
             AllocatedOldInvoices.Add(invoiceId.Value);
 
-            await bitrix24.Crm.Invoices.Old.Update(invoiceId.Value, x => x.SetField(x => x.AccountNumber, accountNumber2));
+            await Bitrix24.Crm.Invoices.Old.Update(invoiceId.Value, x => x.SetField(x => x.AccountNumber, accountNumber2));
 
-            Invoice invoice = (await bitrix24.Crm.Invoices.Old.Get(invoiceId.Value, x=>x.AccountNumber)).Result;
+            Invoice invoice = (await Bitrix24.Crm.Invoices.Old.Get(invoiceId.Value, x=>x.AccountNumber)).Result;
             Assert.Equal(accountNumber2, invoice.AccountNumber);
         }
 
         [Fact]
         public async Task FieldsTest()
         {
-            FieldsResponse fields = (await bitrix24.Crm.Invoices.Old.Fields());
+            FieldsResponse fields = (await Bitrix24.Crm.Invoices.Old.Fields());
         }
 
         [Fact]
@@ -181,15 +181,15 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await bitrix24.Crm.Companies.Add();
+            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
-            int? paySystemId = (await bitrix24.Crm.PaySystems.List()).Result.First().Id;
+            int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
 
-            int productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId);
 
-            int? invoiceId = (await bitrix24.Crm.Invoices.Old.Add(x => x
+            int? invoiceId = (await Bitrix24.Crm.Invoices.Old.Add(x => x
                 .SetField(x => x.StatusId, InvoiceStatusEnum.НеОплачен)
                 .SetField(x => x.PersonTypeId, 2)
                 .SetField(x => x.PaySystemId, paySystemId)
@@ -209,11 +209,11 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                 }))).Result;
             AllocatedOldInvoices.Add(invoiceId.Value);
 
-            DeleteResponse deleteResponse = (await bitrix24.Crm.Invoices.Old.Delete(invoiceId.Value));
+            DeleteResponse deleteResponse = (await Bitrix24.Crm.Invoices.Old.Delete(invoiceId.Value));
 
             Assert.ThrowsAsync<Exception>(async ()=>
             {
-                Invoice invoice = (await bitrix24.Crm.Invoices.Old.Get(invoiceId.Value)).Result;
+                Invoice invoice = (await Bitrix24.Crm.Invoices.Old.Get(invoiceId.Value)).Result;
             });
         }
     }

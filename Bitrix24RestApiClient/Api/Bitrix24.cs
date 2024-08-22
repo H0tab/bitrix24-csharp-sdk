@@ -1,4 +1,5 @@
 ﻿using Bitrix24RestApiClient.Api.Crm;
+using Bitrix24RestApiClient.Api.Task;
 using Bitrix24RestApiClient.Api.User;
 using Bitrix24RestApiClient.Core.Client;
 
@@ -13,9 +14,11 @@ namespace Bitrix24RestApiClient.Api
         {
             Users = new Users(client);
             Crm = new CrmContainer(client);
+            Tasks = new Tasks(client);
         }
 
         public Users Users { get; private set; }
         public CrmContainer Crm { get; private set; }
+        public Tasks Tasks { get; private set; }
     }
 }

@@ -53,7 +53,9 @@ public class Bitrix24Client: IBitrix24Client
             
             var response = await url.PostJsonAsync(args, cancellationToken: ct);
 
-
+            // var json = await response.GetStringAsync();
+            // var o = JsonConvert.DeserializeObject<TResponse>(json);
+            
             var responseBody = await response.GetJsonAsync<TResponse>();
             responseBodyStr = JsonConvert.SerializeObject(responseBody);
                 

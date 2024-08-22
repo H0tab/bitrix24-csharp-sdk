@@ -1,107 +1,143 @@
 ﻿{
-  "ListTest": [
-    [
-      {
-        "select": [
-          "ID",
-          "CATEGORY_ID"
-        ],
-        "order": {
-          "ID": "ASC"
+  "result": {
+    "task": {
+      "id": "1893",
+      "parentId": null,
+      "title": "test",
+      "description": "",
+      "mark": null,
+      "priority": "1",
+      "multitask": "N",
+      "notViewed": "N",
+      "replicate": "N",
+      "stageId": "0",
+      "createdBy": "1",
+      "createdDate": "2024-08-22T08:00:35+03:00",
+      "responsibleId": "1",
+      "changedBy": "1",
+      "changedDate": "2024-08-22T08:00:35+03:00",
+      "statusChangedBy": null,
+      "closedBy": null,
+      "closedDate": null,
+      "activityDate": "2024-08-22T08:00:35+03:00",
+      "dateStart": null,
+      "deadline": null,
+      "startDatePlan": null,
+      "endDatePlan": null,
+      "guid": "{6df6fab3-83a8-44db-a73f-948d02bb9539}",
+      "xmlId": null,
+      "commentsCount": null,
+      "serviceCommentsCount": null,
+      "allowChangeDeadline": "N",
+      "allowTimeTracking": "N",
+      "taskControl": "N",
+      "addInReport": "N",
+      "forkedByTemplateId": null,
+      "timeEstimate": "0",
+      "timeSpentInLogs": null,
+      "matchWorkTime": "N",
+      "forumTopicId": null,
+      "forumId": null,
+      "siteId": "s1",
+      "subordinate": "N",
+      "exchangeModified": null,
+      "exchangeId": null,
+      "outlookVersion": "1",
+      "viewedDate": null,
+      "sorting": null,
+      "durationFact": null,
+      "isMuted": "N",
+      "isPinned": "N",
+      "isPinnedInGroup": "N",
+      "flowId": null,
+      "descriptionInBbcode": "Y",
+      "status": "2",
+      "statusChangedDate": "2024-08-22T08:00:35+03:00",
+      "durationPlan": null,
+      "durationType": "days",
+      "favorite": "N",
+      "groupId": "0",
+      "auditors": [],
+      "accomplices": [],
+      "checklist": [],
+      "group": [],
+      "creator": {
+        "id": "1",
+        "name": "dev@comind.space",
+        "link": "\/company\/personal\/user\/1\/",
+        "icon": "\/bitrix\/images\/tasks\/default_avatar.png",
+        "workPosition": null
+      },
+      "responsible": {
+        "id": "1",
+        "name": "dev@comind.space",
+        "link": "\/company\/personal\/user\/1\/",
+        "icon": "\/bitrix\/images\/tasks\/default_avatar.png",
+        "workPosition": null
+      },
+      "accomplicesData": [],
+      "auditorsData": [],
+      "newCommentsCount": 0,
+      "action": {
+        "accept": false,
+        "decline": false,
+        "complete": true,
+        "approve": false,
+        "disapprove": false,
+        "start": true,
+        "pause": false,
+        "delegate": true,
+        "remove": true,
+        "edit": true,
+        "defer": true,
+        "renew": false,
+        "create": true,
+        "changeDeadline": true,
+        "checklistAddItems": true,
+        "addFavorite": true,
+        "deleteFavorite": false,
+        "rate": true,
+        "edit.originator": false,
+        "checklist.reorder": true,
+        "elapsedtime.add": true,
+        "dayplan.timer.toggle": false,
+        "edit.plan": true,
+        "checklist.add": true,
+        "favorite.add": true,
+        "favorite.delete": false
+      },
+      "checkListTree": {
+        "nodeId": 0,
+        "fields": {
+          "id": null,
+          "copiedId": null,
+          "entityId": null,
+          "userId": 1,
+          "createdBy": null,
+          "parentId": null,
+          "title": "",
+          "sortIndex": null,
+          "displaySortIndex": "",
+          "isComplete": false,
+          "isImportant": false,
+          "completedCount": 0,
+          "members": [],
+          "attachments": []
         },
-        "filter": {
-          ">ID": 100
-        },
-        "start": null
-      }
-    ]
-  ],
-  "GetTest": [
-    [
-      {
-        "ID": 100,
-        "fields": [
-          "ID",
-          "CATEGORY_ID"
-        ]
-      }
-    ]
-  ],
-  "DeleteTest": [
-    [
-      {
-        "ID": 100
-      }
-    ]
-  ],
-  "UpdateTest": [
-    [
-      {
-        "ID": 100,
-        "fields": {
-          "CATEGORY_ID": "12"
-        }
-      }
-    ]
-  ],
-  "AddTest": [
-    [
-      {
-        "fields": {
-          "CATEGORY_ID": "12"
-        }
-      }
-    ]
-  ],
-  "AddWithPhonesAndEmailsTest": [
-    [
-      {
-        "fields": {
-          "CATEGORY_ID": "12",
-          "EMAIL": [
-            {
-              "ID": null,
-              "VALUE_TYPE": "WORK",
-              "VALUE": "test@test.ru",
-              "TYPE_ID": "EMAIL"
-            }
-          ],
-          "PHONE": [
-            {
-              "ID": null,
-              "VALUE_TYPE": "WORK",
-              "VALUE": "+79222222222",
-              "TYPE_ID": "PHONE"
-            }
-          ]
-        }
-      }
-    ]
-  ],
-  "UpdateWithPhonesAndEmailsTest": [
-    [
-      {
-        "ID": 100,
-        "fields": {
-          "CATEGORY_ID": "12",
-          "EMAIL": [
-            {
-              "ID": null,
-              "VALUE_TYPE": "WORK",
-              "VALUE": "test@test.ru",
-              "TYPE_ID": "EMAIL"
-            }
-          ],
-          "PHONE": [
-            {
-              "ID": null,
-              "VALUE_TYPE": "WORK",
-              "VALUE": "+79222222222",
-              "TYPE_ID": "PHONE"
-            }
-          ]
-        }
-      }
-    ]
-  ]
+        "action": [],
+        "descendants": []
+      },
+      "checkListCanAdd": true
+    }
+  },
+  "time": {
+    "start": 1724302835.270817,
+    "finish": 1724302835.3776109,
+    "duration": 0.10679388046264648,
+    "processing": 0.083060026168823242,
+    "date_start": "2024-08-22T08:00:35+03:00",
+    "date_finish": "2024-08-22T08:00:35+03:00",
+    "operating_reset_at": 1724303435,
+    "operating": 0.2207341194152832
+  }
 }

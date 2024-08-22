@@ -18,16 +18,16 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task GetBatchTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            int? contactId1 = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test1"))).Result;
+            int? contactId1 = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test1"))).Result;
             AllocatedContacts.Add(contactId1.Value);
 
-            int? contactId2 = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test2"))).Result;
+            int? contactId2 = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test2"))).Result;
             AllocatedContacts.Add(contactId2.Value);
 
-            await bitrix24.Crm.Deals.Contacts.Items.Set(dealId.Value, new List<DealContactItem>
+            await Bitrix24.Crm.Deals.Contacts.Items.Set(dealId.Value, new List<DealContactItem>
             {
                 new DealContactItem
                 {
@@ -39,7 +39,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                 }
             });
 
-            IAsyncEnumerable<ByIdBatchResponseItem<List<DealContactItem>>> contactItemsIterator = bitrix24.Crm.Deals.Contacts.GetByDealIds(new List<int> { dealId.Value });
+            IAsyncEnumerable<ByIdBatchResponseItem<List<DealContactItem>>> contactItemsIterator = Bitrix24.Crm.Deals.Contacts.GetByDealIds(new List<int> { dealId.Value });
             var contactItems = new List<ByIdBatchResponseItem<List<DealContactItem>>>();
             await foreach (var contactItem in contactItemsIterator)
                 contactItems.Add(contactItem);
@@ -57,17 +57,17 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task AddTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            int? contactId = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? contactId = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedContacts.Add(contactId.Value);
 
-            List<DealContactItem> contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
-            await bitrix24.Crm.Deals.Contacts.Add(dealId.Value, x => x.SetField(x => x.ContactId, contactId));
+            List<DealContactItem> contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            await Bitrix24.Crm.Deals.Contacts.Add(dealId.Value, x => x.SetField(x => x.ContactId, contactId));
             Assert.Empty(contactItems);
 
-            contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
             Assert.Equal(1, contactItems.Count);
             Assert.Equal(contactId, contactItems.First().ContactId);
         }
@@ -75,61 +75,61 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task DeleteTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            int? contactId = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? contactId = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedContacts.Add(contactId.Value);
 
-            List<DealContactItem> contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
-            await bitrix24.Crm.Deals.Contacts.Add(dealId.Value, x => x.SetField(x => x.ContactId, contactId));
+            List<DealContactItem> contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            await Bitrix24.Crm.Deals.Contacts.Add(dealId.Value, x => x.SetField(x => x.ContactId, contactId));
             Assert.Empty(contactItems);
 
-            contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
             Assert.NotEmpty(contactItems);
 
-            await bitrix24.Crm.Deals.Contacts.Delete(dealId.Value, contactId.Value);
+            await Bitrix24.Crm.Deals.Contacts.Delete(dealId.Value, contactId.Value);
 
-            contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
             Assert.Empty(contactItems);
         }
 
         [Fact]
         public async Task DeleteAllContactsTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            int? contactId = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? contactId = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedContacts.Add(contactId.Value);
 
-            List<DealContactItem> contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
-            await bitrix24.Crm.Deals.Contacts.Add(dealId.Value, x => x.SetField(x => x.ContactId, contactId));
+            List<DealContactItem> contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            await Bitrix24.Crm.Deals.Contacts.Add(dealId.Value, x => x.SetField(x => x.ContactId, contactId));
             Assert.Empty(contactItems);
 
-            contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
             Assert.NotEmpty(contactItems);
 
-            await bitrix24.Crm.Deals.Contacts.Items.Delete(dealId.Value);
+            await Bitrix24.Crm.Deals.Contacts.Items.Delete(dealId.Value);
 
-            contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
             Assert.Empty(contactItems);
         }
 
         [Fact]
         public async Task SetContactsTest()
         {
-            int? dealId = (await bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
+            int? dealId = (await Bitrix24.Crm.Deals.Add(x => x.SetField(x => x.Title, "test"))).Result;
             AllocatedDeals.Add(dealId.Value);
 
-            int? contactId1 = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? contactId1 = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedContacts.Add(contactId1.Value);
 
-            int? contactId2 = (await bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? contactId2 = (await Bitrix24.Crm.Contacts.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedContacts.Add(contactId2.Value);
 
-            List<DealContactItem> contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
-            await bitrix24.Crm.Deals.Contacts.Items.Set(dealId.Value, new List<DealContactItem>
+            List<DealContactItem> contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            await Bitrix24.Crm.Deals.Contacts.Items.Set(dealId.Value, new List<DealContactItem>
                 {
                     new DealContactItem
                     {
@@ -141,7 +141,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
                     }
                 });
 
-            contactItems = (await bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
+            contactItems = (await Bitrix24.Crm.Deals.Contacts.Items.Get(dealId.Value)).Result;
             Assert.Equal(2, contactItems.Count);
             Assert.True(contactItems.Any(x => x.ContactId == contactId1));
             Assert.True(contactItems.Any(x => x.ContactId == contactId2));

@@ -14,20 +14,20 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task AddTest()
         {
-            int? productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId.Value);
 
-            Product product = (await bitrix24.Crm.Products.Get(productId.Value)).Result;
+            Product product = (await Bitrix24.Crm.Products.Get(productId.Value)).Result;
             Assert.Equal(productId.Value, product.Id);
         }
 
         [Fact]
         public async Task ListTest()
         {
-            int? productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId.Value);
 
-            ListResponse<Product> response = await bitrix24.Crm.Products.List(x=>x
+            ListResponse<Product> response = await Bitrix24.Crm.Products.List(x=>x
                 .AddFilter(x=>x.Id, productId.Value)
                 .AddSelect(x=>x.Name));
 
@@ -37,10 +37,10 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task FirstTest()
         {
-            int? productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
             AllocatedProducts.Add(productId.Value);
 
-            Product product = await bitrix24.Crm.Products.First(x => x
+            Product product = await Bitrix24.Crm.Products.First(x => x
                 .AddFilter(x => x.Id, productId.Value)
                 .AddSelect(x => x.Name));
 
@@ -50,31 +50,31 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task UpdateTest()
         {
-            int? productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "fizz"))).Result;
+            int? productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "fizz"))).Result;
             AllocatedProducts.Add(productId.Value);
 
-            await bitrix24.Crm.Products.Update(productId.Value, x => x.SetField(x => x.Name, "buzz"));
+            await Bitrix24.Crm.Products.Update(productId.Value, x => x.SetField(x => x.Name, "buzz"));
 
-            Product product = (await bitrix24.Crm.Products.Get(productId.Value, x=>x.Name)).Result;
+            Product product = (await Bitrix24.Crm.Products.Get(productId.Value, x=>x.Name)).Result;
             Assert.Equal("buzz", product.Name);
         }
 
         [Fact]
         public async Task FieldsTest()
         {
-            FieldsResponse fields = (await bitrix24.Crm.Products.Fields());
+            FieldsResponse fields = (await Bitrix24.Crm.Products.Fields());
         }
 
         [Fact]
         public async Task DeleteTest()
         {
-            int? productId = (await bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
+            int? productId = (await Bitrix24.Crm.Products.Add(x => x.SetField(x => x.Name, "test"))).Result;
 
-            DeleteResponse deleteResponse = (await bitrix24.Crm.Products.Delete(productId.Value));
+            DeleteResponse deleteResponse = (await Bitrix24.Crm.Products.Delete(productId.Value));
 
             Assert.ThrowsAsync<Exception>(async ()=>
             {
-                Product product = (await bitrix24.Crm.Products.Get(productId.Value)).Result;
+                Product product = (await Bitrix24.Crm.Products.Get(productId.Value)).Result;
             });
         }
     }

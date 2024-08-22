@@ -14,24 +14,21 @@ namespace Bitrix24RestApiClient.Core;
 
 public class AbstractEntities<TEntity> where TEntity : IAbstractEntity
 {
-    private IBitrix24Client client;
-    private EntryPointPrefix entityTypePrefix;
-    private int? entityTypeId;
+    private readonly IBitrix24Client client;
+    private readonly EntryPointPrefix entityTypePrefix;
+    private readonly int? entityTypeId;
 
-    public AbstractEntities(IBitrix24Client client, EntryPointPrefix entityTypePrefix, int? entityTypeId = null)
+    protected AbstractEntities(IBitrix24Client client, EntryPointPrefix entityTypePrefix, int? entityTypeId = null)
     {
         this.client = client;
         this.entityTypePrefix = entityTypePrefix;
         this.entityTypeId = entityTypeId;
-        this.BatchOperations = new BatchOperationsForListResponse(client, entityTypePrefix);
+        BatchOperations = new BatchOperationsForListResponse(client, entityTypePrefix);
     }
 
     public BatchOperationsForListResponse BatchOperations { get; private set; }
 
-    public async Task<FieldsResponse> Fields()
-    {
-        return await client.SendPostRequest<object, FieldsResponse>(entityTypePrefix, EntityMethod.Fields, new { });
-    }
+    public async Task<FieldsResponse> Fields() => await client.SendPostRequest<object, FieldsResponse>(entityTypePrefix, EntityMethod.Fields, new { });
 
     public async Task<ListResponse<TEntity>> List()
     {
@@ -79,34 +76,28 @@ public class AbstractEntities<TEntity> where TEntity : IAbstractEntity
         return (await client.SendPostRequest<CrmEntityListRequestArgs, ListResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs())).Result.FirstOrDefault();
     }
 
-    public async Task<GetResponse<TEntity>> Get(int id, params Expression<Func<TEntity, object>>[] fieldsExpr)
-    {
-        return await client.SendPostRequest<CrmEntityGetRequestArgs, GetResponse<TEntity>>(entityTypePrefix, EntityMethod.Get, new CrmEntityGetRequestArgs
+    public async Task<GetResponse<TEntity>> Get(int id, params Expression<Func<TEntity, object>>[] fieldsExpr) =>
+        await client.SendPostRequest<CrmEntityGetRequestArgs, GetResponse<TEntity>>(entityTypePrefix, EntityMethod.Get, new CrmEntityGetRequestArgs
         {
             EntityTypeId = entityTypeId,
             Id = id,
             Fields = fieldsExpr.Select(x => x.JsonPropertyName()).ToList()
         });
-    }
 
-    public async Task<GetResponse<TCustomEntity>> Get<TCustomEntity>(int id, params Expression<Func<TCustomEntity, object>>[] fieldsExpr) where TCustomEntity : class
-    {
-        return await client.SendPostRequest<CrmEntityGetRequestArgs, GetResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.Get, new CrmEntityGetRequestArgs
+    public async Task<GetResponse<TCustomEntity>> Get<TCustomEntity>(int id, params Expression<Func<TCustomEntity, object>>[] fieldsExpr) where TCustomEntity : class =>
+        await client.SendPostRequest<CrmEntityGetRequestArgs, GetResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.Get, new CrmEntityGetRequestArgs
         {
             EntityTypeId = entityTypeId,
             Id = id,
             Fields = fieldsExpr.Select(x => x.JsonPropertyName()).ToList()
         });
-    }
 
-    public async Task<DeleteResponse> Delete(int id)
-    {
-        return await client.SendPostRequest<CrmEntityDeleteRequestArgs, DeleteResponse>(entityTypePrefix, EntityMethod.Delete, new CrmEntityDeleteRequestArgs
+    public async Task<DeleteResponse> Delete(int id) =>
+        await client.SendPostRequest<CrmEntityDeleteRequestArgs, DeleteResponse>(entityTypePrefix, EntityMethod.Delete, new CrmEntityDeleteRequestArgs
         {
             EntityTypeId = entityTypeId,
             Id = id
         });
-    }
 
     public async Task<UpdateResponse> Update(int id, Action<IUpdateRequestBuilder<TEntity>> builderFunc)
     {

@@ -35,5 +35,6 @@
         public static EntryPointPrefix RequisitePresetField = new() { Value = "crm.requisite.preset.field" };
         public static EntryPointPrefix RequisitePreset = new() { Value = "crm.requisite.preset" };
         public static EntryPointPrefix Requisite = new() { Value = "crm.requisite" };
+        public static EntryPointPrefix Task = new() { Value = "tasks.task" };
     }
 }

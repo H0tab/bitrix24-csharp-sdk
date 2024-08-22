@@ -9,7 +9,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task ListDealStagesTest()
         {
-            var items = (await bitrix24.Crm.StageHistories.Deals.List()).Result;
+            var items = (await Bitrix24.Crm.StageHistories.Deals.List()).Result;
         }
     }
 }

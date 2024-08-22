@@ -2,7 +2,7 @@
   "profiles": {
     "Bitrix24RestApiTools": {
       "commandName": "Project",
-      "commandLineArgs": "-g -W https://knwlab.bitrix24.ru/rest/1/xnn9jw9b3gfeerm6/ -F crm.deal.fields -C Activity -Cl Activity -O /Users/aleksandrknazev/RiderProjects/bitrix-csharp-sdk/Bitrix24RestApiClient/Api/Crm/CrmActivity\n"
+      "commandLineArgs": "-g -W https://knwlab.bitrix24.ru/rest/1/xnn9jw9b3gfeerm6/ -F tasks.task.getFields -C Task -Cl Task -O /Users/aleksandrknazev/RiderProjects/bitrix-csharp-sdk/Bitrix24RestApiClient/Api/Crm/CrmActivity\n"
     }
   },
   "result": {

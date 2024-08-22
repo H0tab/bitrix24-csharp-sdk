@@ -100,6 +100,8 @@ namespace Bitrix24RestApiClient.Core.Models.Response.FieldsResponse
                         return "string?";
                     case CrmFieldType.Double:
 						return "decimal?";
+                    case CrmFieldType.Enum:
+						return "int?";
 					case CrmFieldType.Enumeration:
 						return IsMultiple 
 							? "List<int>" 
@@ -110,9 +112,9 @@ namespace Bitrix24RestApiClient.Core.Models.Response.FieldsResponse
 						return "string?";
 					case CrmFieldType.User:
 						return "int?";
-					case CrmFieldType.String:
+					case CrmFieldType.String or "mail_message":
 						return "string?";
-					case CrmFieldType.File:
+					case CrmFieldType.File or "disk_file":
 						return "CrmFile?";
 					case CrmFieldType.CrmStatusExtra:
 						return "string?";
@@ -128,6 +130,8 @@ namespace Bitrix24RestApiClient.Core.Models.Response.FieldsResponse
                         return "object?";
                     case CrmFieldType.Variable:
 						return "object?";
+                    case CrmFieldType.Array:
+						return "List<object>";
 					case CrmFieldType.IndexArray:
 						return "List<object>";
 					case CrmFieldType.AssociativeArray:

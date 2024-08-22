@@ -1,0 +1,50 @@
+namespace Bitrix24RestApiClient.Api.Crm.CrmActivity.Models;
+
+public static class ActivityFields
+{
+	public const string Id = "ID";
+	public const string Title = "TITLE";
+	public const string TypeId = "TYPE_ID";
+	public const string CategoryId = "CATEGORY_ID";
+	public const string StageId = "STAGE_ID";
+	public const string StageSemanticId = "STAGE_SEMANTIC_ID";
+	public const string IsNew = "IS_NEW";
+	public const string IsRecurring = "IS_RECURRING";
+	public const string IsReturnCustomer = "IS_RETURN_CUSTOMER";
+	public const string IsRepeatedApproach = "IS_REPEATED_APPROACH";
+	public const string Probability = "PROBABILITY";
+	public const string CurrencyId = "CURRENCY_ID";
+	public const string Opportunity = "OPPORTUNITY";
+	public const string IsManualOpportunity = "IS_MANUAL_OPPORTUNITY";
+	public const string TaxValue = "TAX_VALUE";
+	public const string CompanyId = "COMPANY_ID";
+	public const string ContactId = "CONTACT_ID";
+	public const string ContactIds = "CONTACT_IDS";
+	public const string QuoteId = "QUOTE_ID";
+	public const string Begindate = "BEGINDATE";
+	public const string Closedate = "CLOSEDATE";
+	public const string Opened = "OPENED";
+	public const string Closed = "CLOSED";
+	public const string Comments = "COMMENTS";
+	public const string AssignedById = "ASSIGNED_BY_ID";
+	public const string CreatedById = "CREATED_BY_ID";
+	public const string ModifyById = "MODIFY_BY_ID";
+	public const string MovedById = "MOVED_BY_ID";
+	public const string DateCreate = "DATE_CREATE";
+	public const string DateModify = "DATE_MODIFY";
+	public const string MovedTime = "MOVED_TIME";
+	public const string SourceId = "SOURCE_ID";
+	public const string SourceDescription = "SOURCE_DESCRIPTION";
+	public const string LeadId = "LEAD_ID";
+	public const string AdditionalInfo = "ADDITIONAL_INFO";
+	public const string LocationId = "LOCATION_ID";
+	public const string OriginatorId = "ORIGINATOR_ID";
+	public const string OriginId = "ORIGIN_ID";
+	public const string UtmSource = "UTM_SOURCE";
+	public const string UtmMedium = "UTM_MEDIUM";
+	public const string UtmCampaign = "UTM_CAMPAIGN";
+	public const string UtmContent = "UTM_CONTENT";
+	public const string UtmTerm = "UTM_TERM";
+	public const string LastActivityTime = "LAST_ACTIVITY_TIME";
+	public const string LastActivityBy = "LAST_ACTIVITY_BY";
+}

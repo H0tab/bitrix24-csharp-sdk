@@ -13,7 +13,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         [Fact]
         public async Task SmartProcessesListTest()
         {
-            var data = await bitrix24.Crm.SmartProcesses
+            var data = await Bitrix24.Crm.SmartProcesses
                 .ByEntityId(EntityTypeIdEnum.Deal.EntityTypeId)
                 .List<Deal>();
         }
