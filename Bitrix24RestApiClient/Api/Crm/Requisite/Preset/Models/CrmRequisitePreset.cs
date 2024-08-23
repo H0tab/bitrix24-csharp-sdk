@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 using Newtonsoft.Json;
-using Bitrix24RestApiClient.Core.Models.CrmAbstractEntity;
+using Bitrix24RestApiClient.Core.Models.CrmTypes;
 
 namespace Bitrix24RestApiClient.Api.Crm.Requisite.Preset.Models
 {

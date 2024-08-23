@@ -1,120 +1,119 @@
 ﻿using Newtonsoft.Json;
 using Bitrix24RestApiClient.Core.Attributes;
 using Bitrix24RestApiClient.Core.Models.Enums;
-using Bitrix24RestApiClient.Core.Models.CrmAbstractEntity;
+using Bitrix24RestApiClient.Core.Models.CrmTypes;
 
-namespace Bitrix24RestApiClient.Api.Crm.Invoices.OldInvoices.Models
+namespace Bitrix24RestApiClient.Api.Crm.Invoices.OldInvoices.Models;
+
+public class ProductRow: IAbstractEntity
 {
-    public class ProductRow: IAbstractEntity
-    {
-        /// <summary>
-        /// Идентификатор			
-        /// Тип: integer	
-        /// Только для чтения
-        /// </summary>
-        [JsonProperty(AbstractEntityFields.Id)]
-        public int? Id { get; set; }
+    /// <summary>
+    /// Идентификатор			
+    /// Тип: integer	
+    /// Только для чтения
+    /// </summary>
+    [JsonProperty(AbstractEntityFields.Id)]
+    public int? Id { get; set; }
 
-        /// <summary>
-        /// Цена			
-        /// Тип: double
-        /// </summary>
-        [JsonProperty(ProductRowFields.Price)]
-        public decimal? Price { get; set; }
+    /// <summary>
+    /// Цена			
+    /// Тип: double
+    /// </summary>
+    [JsonProperty(ProductRowFields.Price)]
+    public decimal? Price { get; set; }
 
-        /// <summary>
-        /// Количество			
-        /// Тип: double
-        /// </summary>
-        [JsonProperty(ProductRowFields.Quantity)]
-        public decimal? Quantity { get; set; }
+    /// <summary>
+    /// Количество			
+    /// Тип: double
+    /// </summary>
+    [JsonProperty(ProductRowFields.Quantity)]
+    public decimal? Quantity { get; set; }
         
-        /// <summary>
-        /// Скидка на единицу товара	
-        /// Тип: double
-        /// </summary>
-        [JsonProperty(ProductRowFields.DiscountPrice)]
-        public decimal? DiscountPrice { get; set; }
+    /// <summary>
+    /// Скидка на единицу товара	
+    /// Тип: double
+    /// </summary>
+    [JsonProperty(ProductRowFields.DiscountPrice)]
+    public decimal? DiscountPrice { get; set; }
 
-        /// <summary>
-        /// Идентификатор товара в каталоге		
-        /// Тип: integer
-        /// 0 - если не из каталога	
-        /// </summary>
-        [JsonProperty(ProductRowFields.ProductId)]
-        public int? ProductId { get; set; }
+    /// <summary>
+    /// Идентификатор товара в каталоге		
+    /// Тип: integer
+    /// 0 - если не из каталога	
+    /// </summary>
+    [JsonProperty(ProductRowFields.ProductId)]
+    public int? ProductId { get; set; }
 
-        /// <summary>
-        /// Наименование товарной позиции	
-        /// Тип: string
-        /// </summary>
-        [JsonProperty(ProductRowFields.ProductName)]
-        public string ProductName { get; set; }
+    /// <summary>
+    /// Наименование товарной позиции	
+    /// Тип: string
+    /// </summary>
+    [JsonProperty(ProductRowFields.ProductName)]
+    public string ProductName { get; set; }
 
-        /// <summary>
-        /// Коэффициент ставки НДС			
-        /// Тип: double
-        /// </summary>
-        [JsonProperty(ProductRowFields.VatRate)]
-        public decimal? VatRate { get; set; }
+    /// <summary>
+    /// Коэффициент ставки НДС			
+    /// Тип: double
+    /// </summary>
+    [JsonProperty(ProductRowFields.VatRate)]
+    public decimal? VatRate { get; set; }
 
-        /// <summary>
-        /// НДС включён в цену
-        /// Тип: char	
-        /// ('Y' или 'N')	
-        /// </summary>
-        [JsonIgnore]
-        [CrmField(ProductRowFields.VatIncluded, CrmFieldSubTypeEnum.Char_YesNo)]
-        public bool VatIncluded
+    /// <summary>
+    /// НДС включён в цену
+    /// Тип: char	
+    /// ('Y' или 'N')	
+    /// </summary>
+    [JsonIgnore]
+    [CrmField(ProductRowFields.VatIncluded, CrmFieldSubTypeEnum.Char_YesNo)]
+    public bool VatIncluded
+    {
+        get
         {
-            get
-            {
-                return VatIncludedExt == YesNoEnum.Y.ToString("F");
-            }
-            set
-            {
-                VatIncludedExt = value
-                    ? YesNoEnum.Y.ToString("F")
-                    : YesNoEnum.N.ToString("F");
-            }
+            return VatIncludedExt == YesNoEnum.Y.ToString("F");
         }
-
-        /// <summary>
-        /// НДС включён в цену		
-        /// Тип: char
-        /// ('Y' или 'N')	
-        /// </summary>
-        [JsonProperty(ProductRowFields.VatIncluded)]
-        public string VatIncludedExt { get; set; }
-
-        /// <summary>
-        /// Код единицы измерения			
-        /// Тип: integer
-        /// </summary>
-        [JsonProperty(ProductRowFields.MeasureCode)]
-        public int? MeasureCode { get; set; }
-
-        /// <summary>
-        /// Условное обозначение единицы измерения			
-        /// Тип: string
-        /// </summary>
-        [JsonProperty(ProductRowFields.MeasureName)]
-        public string MeasureName { get; set; }
-
-        /// <summary>
-        /// Внешний код каталога		
-        /// Тип: string
-        /// Только для чтения	
-        /// </summary>
-        [JsonProperty(ProductRowFields.CatalogXmlId)]
-        public string CatalogXmlId { get; set; }
-
-        /// <summary>
-        /// Внешний код товарной позиции			
-        /// Тип: string
-        /// Совпадает с внешним кодом товара, если он из каталога. Только для чтения.
-        /// </summary>
-        [JsonProperty(ProductRowFields.ProductXmlId)]
-        public string ProductXmlId { get; set; }
+        set
+        {
+            VatIncludedExt = value
+                ? YesNoEnum.Y.ToString("F")
+                : YesNoEnum.N.ToString("F");
+        }
     }
+
+    /// <summary>
+    /// НДС включён в цену		
+    /// Тип: char
+    /// ('Y' или 'N')	
+    /// </summary>
+    [JsonProperty(ProductRowFields.VatIncluded)]
+    public string VatIncludedExt { get; set; }
+
+    /// <summary>
+    /// Код единицы измерения			
+    /// Тип: integer
+    /// </summary>
+    [JsonProperty(ProductRowFields.MeasureCode)]
+    public int? MeasureCode { get; set; }
+
+    /// <summary>
+    /// Условное обозначение единицы измерения			
+    /// Тип: string
+    /// </summary>
+    [JsonProperty(ProductRowFields.MeasureName)]
+    public string MeasureName { get; set; }
+
+    /// <summary>
+    /// Внешний код каталога		
+    /// Тип: string
+    /// Только для чтения	
+    /// </summary>
+    [JsonProperty(ProductRowFields.CatalogXmlId)]
+    public string CatalogXmlId { get; set; }
+
+    /// <summary>
+    /// Внешний код товарной позиции			
+    /// Тип: string
+    /// Совпадает с внешним кодом товара, если он из каталога. Только для чтения.
+    /// </summary>
+    [JsonProperty(ProductRowFields.ProductXmlId)]
+    public string ProductXmlId { get; set; }
 }

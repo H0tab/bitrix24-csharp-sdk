@@ -3,7 +3,7 @@ using Bitrix24RestApiClient.Core.Builders;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Client;
 using Bitrix24RestApiClient.Core.Models;
-using Bitrix24RestApiClient.Core.Models.CrmAbstractEntity;
+using Bitrix24RestApiClient.Core.Models.CrmTypes;
 using Bitrix24RestApiClient.Core.Models.Enums;
 using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Models.Response;

@@ -1,5 +1,4 @@
-using System;
-using Bitrix24RestApiClient.Core.Models.CrmAbstractEntity;
+using Bitrix24RestApiClient.Core.Models.CrmTypes;
 using Newtonsoft.Json;
 
 namespace Bitrix24RestApiClient.Api.Crm.CrmActivity.Models;

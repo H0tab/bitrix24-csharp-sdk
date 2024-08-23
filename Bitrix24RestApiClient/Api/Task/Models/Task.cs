@@ -1,6 +1,6 @@
 #nullable enable
-using Bitrix24RestApiClient.Core.Models.CrmAbstractEntity;
-using Bitrix24RestApiClient.Core.Models.CrmFile;
+using Bitrix24RestApiClient.Core.Models.CrmTypes;
+using Bitrix24RestApiClient.Core.Models.CrmTypes.CrmFile;
 using G_Task;
 using Newtonsoft.Json;
 

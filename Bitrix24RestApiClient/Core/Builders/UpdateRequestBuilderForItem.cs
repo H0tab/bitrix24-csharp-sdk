@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
 using Bitrix24RestApiClient.Core.Utilities;
 using Bitrix24RestApiClient.Core.Models.Enums;
-using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
+using Bitrix24RestApiClient.Core.Models.RequestArgs.CrmEntityUpdateArgs;
 
 namespace Bitrix24RestApiClient.Core.Builders;
 

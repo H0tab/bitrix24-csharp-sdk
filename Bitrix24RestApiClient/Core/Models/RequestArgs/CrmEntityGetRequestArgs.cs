@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Bitrix24RestApiClient.Core.Models.RequestArgs
 {
@@ -13,6 +12,6 @@ namespace Bitrix24RestApiClient.Core.Models.RequestArgs
 
         // Список полей, значения которых надо вернуть
         [JsonProperty("fields")]
-        public List<string> Fields { get; set; } = new List<string>();
+        public List<string> Fields { get; set; } = new();
     }
 }

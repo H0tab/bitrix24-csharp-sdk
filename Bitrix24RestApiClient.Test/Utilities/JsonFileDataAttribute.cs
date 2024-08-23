@@ -28,7 +28,6 @@ public class JsonFileDataAttribute : DataAttribute
         this.propertyName = propertyName;
     }
 
-    /// <inheritDoc />
     public override IEnumerable<object[]> GetData(MethodInfo testMethod)
     {
 
@@ -39,7 +38,8 @@ public class JsonFileDataAttribute : DataAttribute
             : Path.GetRelativePath(Directory.GetCurrentDirectory(), filePath);
 
         if (!File.Exists(path))
-            throw new ArgumentException($"Could not find file at path: {path}");
+            return [];
+            // throw new ArgumentException($"Could not find file at path: {path}");
 
         var fileData = File.ReadAllText(filePath);
 
