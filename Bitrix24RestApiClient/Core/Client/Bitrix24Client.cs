@@ -1,10 +1,9 @@
-﻿using System.Net.Http.Json;
-using Flurl.Http;
+﻿using Flurl.Http;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 using Bitrix24RestApiClient.Core.Models.Enums;
-using Newtonsoft.Json.Serialization;
+using Flurl;
 
 namespace Bitrix24RestApiClient.Core.Client;
 
@@ -53,14 +52,10 @@ public class Bitrix24Client: IBitrix24Client
 
         try
         {
-            var response = await client.HttpClient.PostAsJsonAsync(requestUri: GetMethod(entityTypePrefix, entityMethod), value: args, cancellationToken: ct);
-            // var response = await url.PostJsonAsync(args, cancellationToken: ct);
+            var url = webhookUrl.AppendPathSegment(GetMethod(entityTypePrefix, entityMethod));
+            var response = await url.PostJsonAsync(args, cancellationToken: ct);
 
-            // var json = await response.GetStringAsync();
-            // var o = JsonConvert.DeserializeObject<TResponse>(json);
-
-            var responseBody = await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: ct);
-            // var responseBody = await response.GetJsonAsync<TResponse>();
+            var responseBody = await response.GetJsonAsync<TResponse>();
             responseBodyStr = JsonConvert.SerializeObject(responseBody);
                 
             logger.LogInformation("Got response body: {responseBodyStr}", responseBodyStr);
