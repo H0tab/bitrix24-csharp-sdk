@@ -15,7 +15,7 @@ namespace Bitrix24RestApiClient.Api.Task;
 /// <summary>
 /// Task
 /// </summary>
-public class Tasks : AbstractEntities<Models.Task>
+public class Tasks : AbstractEntitiesBase<Models.Task>
 {
     private readonly IBitrix24Client client;
     private readonly EntryPointPrefix entityTypePrefix = EntryPointPrefix.Task;
@@ -26,16 +26,16 @@ public class Tasks : AbstractEntities<Models.Task>
         this.client = client;
     }
 
-    public new async Task<ExtFieldsResponse> Fields() =>
+    public async Task<ExtFieldsResponse> Fields() =>
         await client.SendPostRequest<object, ExtFieldsResponse>(entityTypePrefix, EntityMethod.Fields, new { });
 
-    public new async Task<GetResponseBase<TaskResult>> Get(int id, params Expression<Func<Models.Task, object>>[] fieldsExpr) =>
+    public async Task<GetResponseBase<TaskResult>> Get(int id, params Expression<Func<Models.Task, object>>[] fieldsExpr) =>
         await base.Get<TaskResult>(id, fieldsExpr);
 
-    public new async Task<AddResponse<TaskResult>> Add(Action<IAddRequestBuilder<Models.Task>> builderFunc) => 
+    public async Task<AddResponse<TaskResult>> Add(Action<IAddRequestBuilder<Models.Task>> builderFunc) => 
         await base.Add<TaskResult>(builderFunc);
 
-    public override async Task<UpdateResponse> Update(int id, Action<IUpdateRequestBuilder<Models.Task, IUpdateArgs>> builderFunc)
+    public async Task<UpdateResponse> Update(int id, Action<IUpdateRequestBuilder<Models.Task, IUpdateArgs>> builderFunc)
     {
         var builder = new UpdateRequestBuilder<Models.Task, TaskUpdateArgs>();
         builder.SetEntityTypeId(entityTypeId);
@@ -44,9 +44,9 @@ public class Tasks : AbstractEntities<Models.Task>
         return await client.SendPostRequest<object, UpdateResponse>(entityTypePrefix, EntityMethod.Update, builder.BuildArgs());
     }
 
-    public new async Task<ListItemsResponse<TasksResult, TaskItem>> List(Action<IListRequestBuilder<Models.Task>> builderFunc) =>
+    public async Task<ListItemsResponse<TasksResult, TaskItem>> List(Action<IListRequestBuilder<Models.Task>> builderFunc) =>
         await base.List<TasksResult, TaskItem>(builderFunc);
 
-    public new async Task<DeleteResponse<TaskDeleteResult>> Delete(int id) =>
+    public async Task<DeleteResponse<TaskDeleteResult>> Delete(int id) =>
         await base.Delete<TaskDeleteResult>(id);
 }
