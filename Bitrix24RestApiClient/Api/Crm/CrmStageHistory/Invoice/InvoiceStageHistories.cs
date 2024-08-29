@@ -25,19 +25,19 @@ namespace Bitrix24RestApiClient.Api.Crm.CrmStageHistory.Invoice
 
         public BatchOperationsForListResponse BatchOperations { get; private set; }
 
-        public async Task<ListItemsResponse<InvoiceStageHistory>> List()
+        public async Task<ListItemsResponse<ListItems<InvoiceStageHistory>, InvoiceStageHistory>> List()
         {
             var builder = new ListRequestBuilder<InvoiceStageHistory>();
             builder.SetEntityTypeId(EntityTypeIdEnum.Invoice);
-            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<InvoiceStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
+            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<InvoiceStageHistory>, InvoiceStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
         }
 
-        public async Task<ListItemsResponse<InvoiceStageHistory>> List(Action<IStageHistoriesListRequestBuilder<InvoiceStageHistory>> builderFunc)
+        public async Task<ListItemsResponse<ListItems<InvoiceStageHistory>, InvoiceStageHistory>> List(Action<IStageHistoriesListRequestBuilder<InvoiceStageHistory>> builderFunc)
         {
             var builder = new ListRequestBuilder<InvoiceStageHistory>();
             builder.SetEntityTypeId(EntityTypeIdEnum.Invoice);
             builderFunc(builder);
-            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<InvoiceStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
+            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<InvoiceStageHistory>, InvoiceStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
         }
     }
 }

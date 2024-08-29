@@ -17,7 +17,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
 
             var bitrix24 = new Bitrix24(client);
             var items = await bitrix24.Crm.Deals
-                            .List<Deal>();
+                            .List();
 
             Assert.True(TestHelpers.CompareJsons(expectedObj, client.LastRequestArgs));
         }

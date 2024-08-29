@@ -1,12 +1,10 @@
-﻿using System;
-using Flurl;
+﻿using System.Net.Http.Json;
 using Flurl.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 using Bitrix24RestApiClient.Core.Models.Enums;
-using System.Threading;
+using Newtonsoft.Json.Serialization;
 
 namespace Bitrix24RestApiClient.Core.Client;
 
@@ -21,6 +19,7 @@ public class Bitrix24Client: IBitrix24Client
         
     private readonly string webhookUrl;
     private readonly ILogger<Bitrix24Client> logger;
+    private readonly FlurlClient client;
 
     /// <summary>
     /// Create new Bitrix24Client
@@ -31,6 +30,11 @@ public class Bitrix24Client: IBitrix24Client
     {
         this.webhookUrl = webhookUrl;
         this.logger = logger;
+        client = new FlurlClient
+        {
+            BaseUrl = webhookUrl,
+            HttpClient = { BaseAddress = new Uri(webhookUrl)}
+        };
     }
 
     public async Task<TResponse> SendPostRequest<TArgs, TResponse>(EntryPointPrefix entityTypePrefix, EntityMethod entityMethod, TArgs args, CancellationToken ct = default) where TResponse : class
@@ -49,19 +53,19 @@ public class Bitrix24Client: IBitrix24Client
 
         try
         {
-            var url = webhookUrl.AppendPathSegment(GetMethod(entityTypePrefix, entityMethod));
-            
-            var response = await url.PostJsonAsync(args, cancellationToken: ct);
+            var response = await client.HttpClient.PostAsJsonAsync(requestUri: GetMethod(entityTypePrefix, entityMethod), value: args, cancellationToken: ct);
+            // var response = await url.PostJsonAsync(args, cancellationToken: ct);
 
             // var json = await response.GetStringAsync();
             // var o = JsonConvert.DeserializeObject<TResponse>(json);
-            
-            var responseBody = await response.GetJsonAsync<TResponse>();
+
+            var responseBody = await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: ct);
+            // var responseBody = await response.GetJsonAsync<TResponse>();
             responseBodyStr = JsonConvert.SerializeObject(responseBody);
                 
             logger.LogInformation("Got response body: {responseBodyStr}", responseBodyStr);
                 
-            return responseBody;
+            return responseBody!;
         }
         catch (FlurlHttpException ex)
         {

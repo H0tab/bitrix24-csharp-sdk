@@ -54,8 +54,7 @@ public static class ExpressionExtensions
 
                 return enumValue switch
                 {
-                    StatusSemanticIdEnum.Failed => "F" //TODO дубль строки
-                    ,
+                    StatusSemanticIdEnum.Failed => "F", //TODO дубль строки
                     StatusSemanticIdEnum.Success => "S",
                     StatusSemanticIdEnum.Processing => "P",
                     _ => throw new ArgumentOutOfRangeException()

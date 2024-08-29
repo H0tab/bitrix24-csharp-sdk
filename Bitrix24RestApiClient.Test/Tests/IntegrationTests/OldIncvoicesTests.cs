@@ -18,7 +18,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
+            var addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
             int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
@@ -55,7 +55,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
+            var addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
             int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
@@ -95,7 +95,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
+            var addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
             int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
@@ -136,7 +136,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
             string accountNumber1 = Guid.NewGuid().ToString();
             string accountNumber2 = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
+            var addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
             int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;
@@ -181,7 +181,7 @@ namespace Bitrix24RestApiClient.Test.Tests.IntegrationTests
         {
             string accountNumber = Guid.NewGuid().ToString();
 
-            AddResponse addCompanyResponse = await Bitrix24.Crm.Companies.Add();
+            var addCompanyResponse = await Bitrix24.Crm.Companies.Add();
             AllocatedCompanies.Add(addCompanyResponse.Result);
 
             int? paySystemId = (await Bitrix24.Crm.PaySystems.List()).Result.First().Id;

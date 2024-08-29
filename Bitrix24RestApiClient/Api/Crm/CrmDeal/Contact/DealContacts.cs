@@ -1,18 +1,15 @@
-﻿using System;
-using System.Threading.Tasks;
-using Bitrix24RestApiClient.Core.Client;
+﻿using Bitrix24RestApiClient.Core.Client;
 using Bitrix24RestApiClient.Core.Builders;
 using Bitrix24RestApiClient.Core.Models.Enums;
 using Bitrix24RestApiClient.Core.Models.Response;
-using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Api.Crm.CrmDeal.Contact.Items;
 using Bitrix24RestApiClient.Api.Crm.CrmDeal.Contact.Models;
 using Bitrix24RestApiClient.Core.Models.Response.FieldsResponse;
-using System.Collections.Generic;
 using Bitrix24RestApiClient.Core.Models.Response.BatchResponse;
 using Bitrix24RestApiClient.Core.BatchStrategies;
 using Bitrix24RestApiClient.Api.Crm.CrmDeal.Contact.Items.Models;
+using Bitrix24RestApiClient.Core.Models.RequestArgs.CrmEntityUpdateArgs;
 
 namespace Bitrix24RestApiClient.Api.Crm.CrmDeal.Contact
 {
@@ -42,18 +39,18 @@ namespace Bitrix24RestApiClient.Api.Crm.CrmDeal.Contact
 
         public async Task<DeleteResponse> Delete(int dealId, int contactId)
         {
-            var builder = new UpdateRequestBuilder<DealContact>();
+            var builder = new UpdateRequestBuilder<DealContact, CrmEntityUpdateArgs>();
             builder.SetId(dealId);
             builder.SetField(x => x.ContactId, contactId);
-            return await client.SendPostRequest<object, DeleteResponse>(entityTypePrefix, EntityMethod.Delete, builder.BuildArgs(entityTypePrefix));
+            return await client.SendPostRequest<object, DeleteResponse>(entityTypePrefix, EntityMethod.Delete, builder.BuildArgs());
         } 
 
-        public async Task<UpdateResponse> Add(int dealId, Action<IUpdateRequestBuilder<DealContact>> builderFunc)
+        public async Task<UpdateResponse> Add(int dealId, Action<IUpdateRequestBuilder<DealContact, CrmEntityUpdateArgs>> builderFunc)
         {
-            var builder = new UpdateRequestBuilder<DealContact>();
+            var builder = new UpdateRequestBuilder<DealContact, CrmEntityUpdateArgs>();
             builder.SetId(dealId);
             builderFunc(builder);
-            return await client.SendPostRequest<object, UpdateResponse>(entityTypePrefix, EntityMethod.Add, builder.BuildArgs(entityTypePrefix));
+            return await client.SendPostRequest<object, UpdateResponse>(entityTypePrefix, EntityMethod.Add, builder.BuildArgs());
         }
     }
 }

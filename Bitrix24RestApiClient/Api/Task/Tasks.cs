@@ -1,15 +1,14 @@
 using System.Linq.Expressions;
+using Bitrix24RestApiClient.Api.Task.Models;
 using Bitrix24RestApiClient.Core;
 using Bitrix24RestApiClient.Core.Builders;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Client;
 using Bitrix24RestApiClient.Core.Models.Enums;
-using Bitrix24RestApiClient.Core.Models.RequestArgs;
+using Bitrix24RestApiClient.Core.Models.RequestArgs.CrmEntityUpdateArgs;
 using Bitrix24RestApiClient.Core.Models.Response;
-using Bitrix24RestApiClient.Core.Models.Response.Common;
 using Bitrix24RestApiClient.Core.Models.Response.FieldsResponse;
-using Bitrix24RestApiClient.Core.Utilities;
-using Newtonsoft.Json;
+using Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse;
 
 namespace Bitrix24RestApiClient.Api.Task;
 
@@ -30,41 +29,24 @@ public class Tasks : AbstractEntities<Models.Task>
     public new async Task<ExtFieldsResponse> Fields() =>
         await client.SendPostRequest<object, ExtFieldsResponse>(entityTypePrefix, EntityMethod.Fields, new { });
 
-    public new async Task<TEntity> Get<TEntity>(int id, params Expression<Func<TEntity, object>>[] fieldsExpr)
-        where TEntity : class
-    {
-        var response = await client.SendPostRequest<CrmEntityGetRequestArgs, ListResponse<TEntity>>(entityTypePrefix,
-            EntityMethod.Get, new CrmEntityGetRequestArgs
-            {
-                Id = id,
-                Fields = fieldsExpr.Select(x => x.JsonPropertyName()).ToList()
-            });
-        return response.Result.FirstOrDefault();
-    }
+    public new async Task<GetResponseBase<TaskResult>> Get(int id, params Expression<Func<Models.Task, object>>[] fieldsExpr) =>
+        await base.Get<TaskResult>(id, fieldsExpr);
 
-    public new async Task<TaskAddResponse> Add(Action<IAddRequestBuilder<Models.Task>> builderFunc)
+    public new async Task<AddResponse<TaskResult>> Add(Action<IAddRequestBuilder<Models.Task>> builderFunc) => 
+        await base.Add<TaskResult>(builderFunc);
+
+    public override async Task<UpdateResponse> Update(int id, Action<IUpdateRequestBuilder<Models.Task, IUpdateArgs>> builderFunc)
     {
-        var builder = new AddRequestBuilder<Models.Task>();
+        var builder = new UpdateRequestBuilder<Models.Task, TaskUpdateArgs>();
         builder.SetEntityTypeId(entityTypeId);
+        builder.SetId(id);
         builderFunc(builder);
-        return await client.SendPostRequest<CrmEntityAddArgs, TaskAddResponse>(entityTypePrefix, EntityMethod.Add,
-            builder.BuildArgs());
+        return await client.SendPostRequest<object, UpdateResponse>(entityTypePrefix, EntityMethod.Update, builder.BuildArgs());
     }
-}
 
-public class TaskAddResponse
-{
-    [JsonProperty("result")] public TaskAddResult Result { get; set; }
+    public new async Task<ListItemsResponse<TasksResult, TaskItem>> List(Action<IListRequestBuilder<Models.Task>> builderFunc) =>
+        await base.List<TasksResult, TaskItem>(builderFunc);
 
-    [JsonProperty("time")] public Time Time { get; set; }
-}
-
-public class TaskAddResult
-{
-    [JsonProperty("task")] public TaskResult Task { get; set; }
-}
-
-public class TaskResult
-{
-    [JsonProperty("id")] public int Id { get; set; }
+    public new async Task<DeleteResponse<TaskDeleteResult>> Delete(int id) =>
+        await base.Delete<TaskDeleteResult>(id);
 }

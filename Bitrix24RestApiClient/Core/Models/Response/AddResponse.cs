@@ -1,14 +1,22 @@
 ﻿using Newtonsoft.Json;
 using Bitrix24RestApiClient.Core.Models.Response.Common;
 
-namespace Bitrix24RestApiClient.Core.Models.Response
-{
-    public class AddResponse
-    {
-        [JsonProperty("result")]
-        public int Result { get; set; }
+namespace Bitrix24RestApiClient.Core.Models.Response;
 
-        [JsonProperty("time")]
-        public Time Time { get; set; }
-    }
+public class AddResponse
+{
+    [JsonProperty("result")] 
+    public int Result { get; set; }
+
+    [JsonProperty("time")] 
+    public Time Time { get; set; }
+}
+
+public class AddResponse<TResult>
+{
+    [JsonProperty("result")] 
+    public TResult Result { get; set; }
+
+    [JsonProperty("time")] 
+    public Time Time { get; set; }
 }

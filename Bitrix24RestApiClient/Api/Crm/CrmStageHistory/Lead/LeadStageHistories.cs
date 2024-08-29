@@ -25,19 +25,19 @@ namespace Bitrix24RestApiClient.Api.Crm.CrmStageHistory.Lead
 
         public BatchOperationsForListResponse BatchOperations { get; private set; }
 
-        public async Task<ListItemsResponse<LeadStageHistory>> List()
+        public async Task<ListItemsResponse<ListItems<LeadStageHistory>, LeadStageHistory>> List()
         {
             var builder = new ListRequestBuilder<LeadStageHistory>();
             builder.SetEntityTypeId(EntityTypeIdEnum.Lead);
-            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<LeadStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
+            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<LeadStageHistory>, LeadStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
         }
 
-        public async Task<ListItemsResponse<LeadStageHistory>> List(Action<IStageHistoriesListRequestBuilder<LeadStageHistory>> builderFunc)
+        public async Task<ListItemsResponse<ListItems<LeadStageHistory>, LeadStageHistory>> List(Action<IStageHistoriesListRequestBuilder<LeadStageHistory>> builderFunc)
         {
             var builder = new ListRequestBuilder<LeadStageHistory>();
             builder.SetEntityTypeId(EntityTypeIdEnum.Lead);
             builderFunc(builder);
-            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<LeadStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
+            return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<LeadStageHistory>, LeadStageHistory>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
         }
     }
 }

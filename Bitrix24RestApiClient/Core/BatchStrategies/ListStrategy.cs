@@ -40,7 +40,7 @@ public class ListStrategy
             .ClearSelect()
             .AddOrderBy(idNameExpr);
 
-        ListItemsResponse<TCustomEntity> firstListResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchMinIdBuilder.BuildArgs());
+        var firstListResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchMinIdBuilder.BuildArgs());
         if (firstListResponse.Total == 0)
             yield break;
 
@@ -58,7 +58,7 @@ public class ListStrategy
 
             nextMinId = nextListResponse.Result.Items.Max(x => x.Id).Value;
 
-            foreach (TCustomEntity item in nextListResponse.Result.Items)
+            foreach (var item in nextListResponse.Result.Items)
                 yield return item;
 
             if (limit != null && i > limit.Value)
@@ -120,13 +120,13 @@ public class ListStrategy
         return listResponse;
     }
 
-    private async Task<ListItemsResponse<TCustomEntity>> FetchNextListItems<TCustomEntity>(Expression<Func<TCustomEntity, object>> idNameExpr, ListRequestBuilder<TCustomEntity> fetchMinIdBuilder, int nextMinId) where TCustomEntity : IAbstractEntity
+    private async Task<ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>> FetchNextListItems<TCustomEntity>(Expression<Func<TCustomEntity, object>> idNameExpr, ListRequestBuilder<TCustomEntity> fetchMinIdBuilder, int nextMinId) where TCustomEntity : IAbstractEntity
     {
         ListRequestBuilder<TCustomEntity> fetchNextBuilder = fetchMinIdBuilder.Copy();
         fetchNextBuilder
             .AddFilter(idNameExpr, nextMinId, FilterOperator.GreateThan);
 
-        ListItemsResponse<TCustomEntity> listResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchNextBuilder.BuildArgs());
+        var listResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchNextBuilder.BuildArgs());
         return listResponse;
     }
 }

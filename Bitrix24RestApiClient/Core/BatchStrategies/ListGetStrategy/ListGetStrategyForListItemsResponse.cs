@@ -47,7 +47,7 @@ public class ListGetStrategyForListItemsResponse
             .AddSelect(idNameExpr)
             .AddOrderBy(idNameExpr); 
 
-        var firstListResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchMinIdBuilder.BuildArgs());
+        var firstListResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchMinIdBuilder.BuildArgs());
         if (firstListResponse.Total == 0)
             yield break;
 
@@ -95,14 +95,14 @@ public class ListGetStrategyForListItemsResponse
             yield return item.Item;
     }
 
-    private async Task<ListItemsResponse<TCustomEntity>> FetchNextList<TCustomEntity>(Expression<Func<TCustomEntity, object>> idNameExpr, ListRequestBuilder<TCustomEntity> fetchMinIdBuilder, int nextMinId)
+    private async Task<ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>> FetchNextList<TCustomEntity>(Expression<Func<TCustomEntity, object>> idNameExpr, ListRequestBuilder<TCustomEntity> fetchMinIdBuilder, int nextMinId)
     {
         var fetchNextBuilder = fetchMinIdBuilder.Copy();
         fetchNextBuilder
             .SetStart(-1)
             .AddFilter(idNameExpr, nextMinId, FilterOperator.GreateThan);
 
-        var listResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchNextBuilder.BuildArgs());
+        var listResponse = await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, fetchNextBuilder.BuildArgs());
         return listResponse;
     }
 }

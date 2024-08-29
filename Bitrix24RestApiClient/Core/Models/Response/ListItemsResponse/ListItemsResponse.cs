@@ -1,21 +1,19 @@
-﻿using Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Bitrix24RestApiClient.Core.Models.Response.Common;
 
-namespace Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse
+namespace Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse;
+
+public class ListItemsResponse<TItems, TItemType> where TItems : class, IListItems<TItemType>
 {
-    public class ListItemsResponse<TEntity>
-    {
-        [JsonProperty("result")]
-        public ListItemsItemsResponse<TEntity> Result { get; set; }
+    [JsonProperty("result")]
+    public TItems Result { get; set; }
 
-        [JsonProperty("next")]
-        public int? Next { get; set; }
+    [JsonProperty("next")]
+    public int? Next { get; set; }
 
-        [JsonProperty("total")]
-        public int Total { get; set; }
+    [JsonProperty("total")]
+    public int Total { get; set; }
 
-        [JsonProperty("time")]
-        public Time Time { get; set; }
-    }
+    [JsonProperty("time")]
+    public Time Time { get; set; }
 }

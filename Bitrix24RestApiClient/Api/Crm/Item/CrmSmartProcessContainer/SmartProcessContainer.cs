@@ -8,6 +8,7 @@ using Bitrix24RestApiClient.Core.Models.Response;
 using Bitrix24RestApiClient.Core.Models.RequestArgs;
 using Bitrix24RestApiClient.Core.Builders.Interfaces;
 using Bitrix24RestApiClient.Core.Models.CrmTypes;
+using Bitrix24RestApiClient.Core.Models.RequestArgs.CrmEntityUpdateArgs;
 using Bitrix24RestApiClient.Core.Models.Response.FieldsResponse;
 using Bitrix24RestApiClient.Core.Models.Response.AddItemResponse;
 using Bitrix24RestApiClient.Core.Models.Response.ListItemsResponse;
@@ -34,19 +35,19 @@ public class SmartProcessContainer
         return await client.SendPostRequest<object, FieldsResponse>(entityTypePrefix, EntityMethod.Fields, new { });
     }
 
-    public async Task<ListItemsResponse<TCustomEntity>> List<TCustomEntity>() where TCustomEntity : IAbstractEntity
+    public async Task<ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>> List<TCustomEntity>() where TCustomEntity : IAbstractEntity
     {
         var builder = new ListRequestBuilder<TCustomEntity>();
         builder.SetEntityTypeId(entityTypeId);
-        return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
+        return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
     }
 
-    public async Task<ListItemsResponse<TCustomEntity>> List<TCustomEntity>(Action<IListRequestBuilder<TCustomEntity>> builderFunc) where TCustomEntity : IAbstractEntity
+    public async Task<ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>> List<TCustomEntity>(Action<IListRequestBuilder<TCustomEntity>> builderFunc) where TCustomEntity : IAbstractEntity
     {
         var builder = new ListRequestBuilder<TCustomEntity>();
         builder.SetEntityTypeId(entityTypeId);
         builderFunc(builder);
-        return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
+        return await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs());
     }
 
     public async Task<TCustomEntity> First<TCustomEntity>(Action<IListRequestBuilder<TCustomEntity>> builderFunc) where TCustomEntity : IAbstractEntity
@@ -54,7 +55,7 @@ public class SmartProcessContainer
         var builder = new ListRequestBuilder<TCustomEntity>();
         builder.SetEntityTypeId(entityTypeId);
         builderFunc(builder);
-        return (await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs())).Result.Items.FirstOrDefault();
+        return (await client.SendPostRequest<CrmEntityListRequestArgs, ListItemsResponse<ListItems<TCustomEntity>, TCustomEntity>>(entityTypePrefix, EntityMethod.List, builder.BuildArgs())).Result.Items.FirstOrDefault();
     }
 
     public async Task<GetResponse<TCustomEntity>> Get<TCustomEntity>(int id, params Expression<Func<TCustomEntity, object>>[] fieldsExpr) where TCustomEntity : class
@@ -76,13 +77,13 @@ public class SmartProcessContainer
         });
     } 
 
-    public async Task<UpdateItemResponse<TCustomEntity>> Update<TCustomEntity>(int id, Action<IUpdateRequestBuilder<TCustomEntity>> builderFunc)
+    public async Task<UpdateItemResponse<TCustomEntity>> Update<TCustomEntity>(int id, Action<IUpdateRequestBuilder<TCustomEntity, CrmEntityUpdateArgs>> builderFunc)
     {
-        var builder = new UpdateRequestBuilder<TCustomEntity>();
+        var builder = new UpdateRequestBuilder<TCustomEntity, CrmEntityUpdateArgs>();
         builder.SetEntityTypeId(entityTypeId);
         builder.SetId(id);
         builderFunc(builder);
-        return await client.SendPostRequest<object, UpdateItemResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.Update, builder.BuildArgs(entityTypePrefix));
+        return await client.SendPostRequest<object, UpdateItemResponse<TCustomEntity>>(entityTypePrefix, EntityMethod.Update, builder.BuildArgs());
     }
 
     public async Task<AddItemResponse<TCustomEntity>> Add<TCustomEntity>()

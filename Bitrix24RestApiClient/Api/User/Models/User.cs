@@ -2,13 +2,14 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Bitrix24RestApiClient.Api.User.Models;
+using Bitrix24RestApiClient.Core.Models.CrmTypes;
 
 namespace Bitrix24RestApiClient.Api.User.Models
 {
 	/// <summary>
 	/// Пользователи
 	/// </summary>
-	public class User
+	public class User : IAbstractEntity
 	{
 		/// <summary>
 		/// ID

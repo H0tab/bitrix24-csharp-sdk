@@ -23,7 +23,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
             int id = 100;
             var bitrix24 = new Bitrix24(client);
             var items = await bitrix24.Crm.Deals
-                            .List<Deal>(x=> x
+                            .List(x=> x
                                 .AddSelect(x=>x.Id, x=>x.CategoryId)
                                 .AddFilter(x=>x.Id, id, FilterOperator.GreateThan)
                                 .AddOrderBy(x => x.Id));
@@ -40,7 +40,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
             int id = 100;
             var bitrix24 = new Bitrix24(client);
             var item = await bitrix24.Crm.Deals
-                            .Get<Deal>(id, x => x.Id, x => x.CategoryId);
+                            .Get(id, x => x.Id, x => x.CategoryId);
 
             Assert.True(TestHelpers.CompareJsons(expectedObj, client.LastRequestArgs));
         }
@@ -68,7 +68,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
             int id = 100;
             var bitrix24 = new Bitrix24(client);
             var item = await bitrix24.Crm.Deals
-                            .Update<Deal>(id, x=> x.SetField(y=>y.CategoryId, "12"));
+                            .Update(id, x=> x.SetField(y=>y.CategoryId, "12"));
 
             Assert.True(TestHelpers.CompareJsons(expectedObj, client.LastRequestArgs), $"Expected: {JsonConvert.SerializeObject(expectedObj)}, Actual: {client.LastRequestArgs}");
         }
@@ -81,7 +81,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
 
             var bitrix24 = new Bitrix24(client);
             var item = await bitrix24.Crm.Deals
-                            .Add<Deal>(x => x.SetField(y => y.CategoryId, "12"));
+                            .Add(x => x.SetField(y => y.CategoryId, "12"));
 
             Assert.True(TestHelpers.CompareJsons(expectedObj, client.LastRequestArgs), $"Expected: {JsonConvert.SerializeObject(expectedObj)}, Actual: {client.LastRequestArgs}");
         }
@@ -95,7 +95,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
             int id = 100;
             var bitrix24 = new Bitrix24(client);
             var item = await bitrix24.Crm.Deals
-                            .Update<Deal>(id, x => 
+                            .Update(id, x => 
                                 x.SetField(y => y.CategoryId, "12")
                                 .AddEmails(x=>x.SetField("test@test.ru", EmailType.Рабочий))
                                 .AddPhones(x => x.SetField("+79222222222", PhoneType.Рабочий))
@@ -112,7 +112,7 @@ namespace Bitrix24RestApiClient.Test.Tests.RequestBodyTests
 
             var bitrix24 = new Bitrix24(client);
             var item = await bitrix24.Crm.Deals
-                            .Add<Deal>(x =>
+                            .Add(x =>
                                 x.SetField(y => y.CategoryId, "12")
                                 .AddEmails(x => x.SetField("test@test.ru", EmailType.Рабочий))
                                 .AddPhones(x => x.SetField("+79222222222", PhoneType.Рабочий))
